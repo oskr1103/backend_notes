@@ -18,9 +18,9 @@ try {
   console.log(`El error es: ${error}`);
 }
 
-// app.get("/", (req, res) => {
-//   res.send("Hello World!");
-// });
+app.get("/", (req, res) => {
+  res.send("i found you");
+});
 
 app.listen(8000, () => {
   console.log("Server is running on port http://localhost:8000/");
