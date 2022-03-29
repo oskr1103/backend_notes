@@ -6,22 +6,22 @@ import BlogModel from "../models/BlogModel.js";
 //Mostrar todos los blogs
 export const getAllBlogs = async (req, res) => {
   try {
-    const blogs = await BlogModel.findAll();
-    res.json(blogs);
+    const blogs = await BlogModel.find();
+    res.status(200).json(blogs);
   } catch (error) {
     res.json({ message: error.message });
   }
 };
 
-//Mostrar un blog por su id, en este caso se puede usar findAll pero se debe usar en la respuesta de json un array en su posición 0
+//Mostrar un blog por su id, en este caso se puede usar findAll pero se debe usar en la respuesta de json un array en su posición 0, esto para conexión por mysql
 export const getBlog = async (req, res) => {
   try {
-    const blog = await BlogModel.findOne({
-      where: {
-        id: req.params.id,
-      },
+    const id = req.params.id;
+    await BlogModel.findById({
+      _id: id,
+    }).then((blog) => {
+      res.status(200).json(blog);
     });
-    res.json(blog);
   } catch (error) {
     res.json({ message: error.message });
   }
@@ -31,7 +31,7 @@ export const getBlog = async (req, res) => {
 export const createBlog = async (req, res) => {
   try {
     await BlogModel.create(req.body);
-    res.json({ message: "Blog creado" });
+    res.status(200).json({ message: "Nota creada correctamente" });
   } catch (error) {
     res.json({ message: error.message });
   }
@@ -40,10 +40,11 @@ export const createBlog = async (req, res) => {
 //Actualizar un blog
 export const updateBlog = async (req, res) => {
   try {
-    await BlogModel.update(req.body, {
-      where: { id: req.params.id },
+    const id = req.params.id;
+    await BlogModel.updateOne({ _id: id }, req.body).then((res) => {
+      console.log(res);
     });
-    res.json({ message: "Blog actualizado" });
+    res.status(200).json({ message: "Blog actualizado" });
   } catch (error) {
     res.json({ message: error.message });
   }
@@ -52,10 +53,11 @@ export const updateBlog = async (req, res) => {
 //Eliminar un blog
 export const deleteBlog = async (req, res) => {
   try {
-    await BlogModel.destroy({
-      where: { id: req.params.id },
+    const id = req.params.id;
+    await BlogModel.deleteOne({ _id: id }).then((res) => {
+      console.log(res);
     });
-    res.json({ message: "Blog eliminado" });
+    res.status(200).json({ message: "Blog eliminado" });
   } catch (error) {
     res.json({ message: error.message });
   }

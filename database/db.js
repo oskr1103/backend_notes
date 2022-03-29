@@ -1,9 +1,17 @@
-import { Sequelize } from "sequelize";
+import mongoose from "mongoose";
 
-const db = new Sequelize("rehobot_notas", "rehobot_notasUser", "Converse04?", {
-  host: "190.8.176.248",
-  dialect: "mysql",
-  port: 3306,
+const url =
+  "mongodb+srv://rehobot-notes:Converse04@cluster0.qehyw.mongodb.net/rehobot-notes?retryWrites=true&w=majority";
+
+mongoose.connect(url);
+
+const db = mongoose.connection;
+
+db.on("open", () => {
+  console.log("Connected to MongoDB");
+});
+db.on("error", () => {
+  console.log("error to MongoDB");
 });
 
 export default db;
