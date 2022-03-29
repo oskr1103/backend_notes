@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const url =
   "mongodb+srv://rehobot-notes:Converse04@cluster0.qehyw.mongodb.net/rehobot-notes?retryWrites=true&w=majority";
 
-mongoose.connect(url);
+mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
 
 const db = mongoose.connection;
 
